@@ -14,7 +14,7 @@ ExtractionContext<A>::ExtractionContext(const Dyld::Context &dCtx,
       disasm(mCtx, activity, logger, funcTracker),
       funcTracker(mCtx, logger), ptrTracker(dCtx, logger) {}
 
-template class ExtractionContext<Arch::x86_64>;
-template class ExtractionContext<Arch::arm>;
-template class ExtractionContext<Arch::arm64>;
-template class ExtractionContext<Arch::arm64_32>;
+template class DyldExtractor::Utils::ExtractionContext<Arch::x86_64>;
+template class DyldExtractor::Utils::ExtractionContext<Arch::arm>;
+template class DyldExtractor::Utils::ExtractionContext<Arch::arm64>;
+template class DyldExtractor::Utils::ExtractionContext<Arch::arm64_32>;

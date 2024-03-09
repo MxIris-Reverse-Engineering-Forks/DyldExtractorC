@@ -548,5 +548,5 @@ typename Arm64Utils<A>::PtrT Arm64Utils<A>::getLdrOffset(const uint32_t ldrI) {
   return (ldrI & 0x3FFC00) >> (10 - scale);
 }
 
-template class Arm64Utils<Utils::Arch::arm64>;
-template class Arm64Utils<Utils::Arch::arm64_32>;
+template class DyldExtractor::Converter::Stubs::Arm64Utils<Utils::Arch::arm64>;
+template class DyldExtractor::Converter::Stubs::Arm64Utils<Utils::Arch::arm64_32>;

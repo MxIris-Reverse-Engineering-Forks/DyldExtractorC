@@ -19,10 +19,10 @@ SegmentContext<ro, P>::SegmentContext(SegmentCommandT *segment)
   }
 }
 
-template class SegmentContext<true, Utils::Arch::Pointer32>;
-template class SegmentContext<true, Utils::Arch::Pointer64>;
-template class SegmentContext<false, Utils::Arch::Pointer32>;
-template class SegmentContext<false, Utils::Arch::Pointer64>;
+template class DyldExtractor::Macho::SegmentContext<true, Utils::Arch::Pointer32>;
+template class DyldExtractor::Macho::SegmentContext<true, Utils::Arch::Pointer64>;
+template class DyldExtractor::Macho::SegmentContext<false, Utils::Arch::Pointer32>;
+template class DyldExtractor::Macho::SegmentContext<false, Utils::Arch::Pointer64>;
 
 template <bool ro, class P>
 Context<ro, P>::Context(
@@ -313,7 +313,7 @@ Context<ro, P>::openFiles(
   return files;
 }
 
-template class Context<true, Utils::Arch::Pointer32>;
-template class Context<true, Utils::Arch::Pointer64>;
-template class Context<false, Utils::Arch::Pointer32>;
-template class Context<false, Utils::Arch::Pointer64>;
+template class DyldExtractor::Macho::Context<true, Utils::Arch::Pointer32>;
+template class DyldExtractor::Macho::Context<true, Utils::Arch::Pointer64>;
+template class DyldExtractor::Macho::Context<false, Utils::Arch::Pointer32>;
+template class DyldExtractor::Macho::Context<false, Utils::Arch::Pointer64>;

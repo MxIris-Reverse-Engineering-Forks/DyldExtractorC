@@ -15,6 +15,8 @@ public:
   public:
     PtrT address;
     PtrT size;
+      Function(PtrT address,
+               PtrT size): address(address), size(size) {}
   };
 
   FunctionTracker(const Macho::Context<false, P> &mCtx,

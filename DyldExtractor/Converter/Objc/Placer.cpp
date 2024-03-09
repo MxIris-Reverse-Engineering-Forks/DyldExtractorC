@@ -273,7 +273,7 @@ template <class A> void Placer<A>::trackAtoms(Provider::ExtraData<P> &exData) {
     for (auto &[origAddr, atom] : atoms) {
       auto finalAddr = atom.finalAddr();
       ptrTracker.addS(finalAddr, atom.data);
-      ptrTracker.copyAuthS<decltype(atom.data)>(finalAddr, origAddr);
+        ptrTracker.template copyAuthS<decltype(atom.data)>(finalAddr, origAddr);
     }
   };
 
@@ -283,13 +283,13 @@ template <class A> void Placer<A>::trackAtoms(Provider::ExtraData<P> &exData) {
     for (auto &[origAddr, atom] : atoms) {
       auto finalAddr = atom.finalAddr();
       ptrTracker.addS(finalAddr, atom.data);
-      ptrTracker.copyAuthS<decltype(atom.data)>(finalAddr, origAddr);
+        ptrTracker.template copyAuthS<decltype(atom.data)>(finalAddr, origAddr);
 
       for (auto &entry : atom.entries) {
         auto entryFinalAddr = entry.finalAddr();
         PtrT entryOrigAddr = origAddr + entryFinalAddr - finalAddr;
         ptrTracker.addS(entryFinalAddr, entry.data);
-        ptrTracker.copyAuthS<decltype(atom.data)>(entryFinalAddr,
+          ptrTracker.template copyAuthS<decltype(atom.data)>(entryFinalAddr,
                                                   entryOrigAddr);
       }
     }
@@ -406,7 +406,7 @@ void Placer<A>::checkBind(const std::shared_ptr<Provider::SymbolicInfo> &bind) {
   }
 }
 
-#define X(T) template class Placer<T>;
+#define X(T) template class DyldExtractor::Converter::ObjcFixer::Placer<T>;
 X(Utils::Arch::x86_64)
 X(Utils::Arch::arm) X(Utils::Arch::arm64) X(Utils::Arch::arm64_32)
 #undef X

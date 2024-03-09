@@ -19,7 +19,7 @@ template <class P> void FunctionTracker<P>::load() {
   auto [textSeg, textSect] = mCtx->getSection(SEG_TEXT, SECT_TEXT);
   auto leSeg = mCtx->getSegment(SEG_LINKEDIT)->command;
 
-  auto funcStartsCmd = mCtx->getFirstLC<Macho::Loader::linkedit_data_command>(
+    auto funcStartsCmd = mCtx->template getFirstLC<Macho::Loader::linkedit_data_command>(
       {LC_FUNCTION_STARTS});
   const uint8_t *leFile = mCtx->convertAddr(leSeg->vmaddr).second;
   const uint8_t *p = leFile + funcStartsCmd->dataoff;
@@ -37,7 +37,8 @@ template <class P> void FunctionTracker<P>::load() {
   }
 
   // Add last function
-  functions.emplace_back(funcAddr, textSect->addr + textSect->size - funcAddr);
+    PtrT size = textSect->addr + textSect->size - funcAddr;
+  functions.emplace_back(funcAddr, size);
 }
 
 template <class P>
@@ -46,5 +47,5 @@ FunctionTracker<P>::getFunctions() const {
   return functions;
 }
 
-template class FunctionTracker<Utils::Arch::Pointer32>;
-template class FunctionTracker<Utils::Arch::Pointer64>;
+template class DyldExtractor::Provider::FunctionTracker<Utils::Arch::Pointer32>;
+template class DyldExtractor::Provider::FunctionTracker<Utils::Arch::Pointer64>;

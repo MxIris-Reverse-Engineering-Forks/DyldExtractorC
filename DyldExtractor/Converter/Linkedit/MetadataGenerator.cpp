@@ -26,8 +26,8 @@ template <class A> void writeSymbols(Utils::ExtractionContext<A> &eCtx) {
   auto &leTracker = eCtx.leTracker.value();
   auto &stTracker = eCtx.stTracker.value();
 
-  auto symtab = mCtx.getFirstLC<Macho::Loader::symtab_command>();
-  auto dysymtab = mCtx.getFirstLC<Macho::Loader::dysymtab_command>();
+    auto symtab = mCtx.template getFirstLC<Macho::Loader::symtab_command>();
+    auto dysymtab = mCtx.template getFirstLC<Macho::Loader::dysymtab_command>();
 
   // Create string pool
   // Get size of pool and assign indicies
@@ -150,7 +150,7 @@ void Converter::generateMetadata(Utils::ExtractionContext<A> &eCtx) {
   using P = A::P;
 
   eCtx.activity->update("Metadata Generator", "Starting Up");
-  auto dyldInfo = eCtx.mCtx->getFirstLC<Macho::Loader::dyld_info_command>();
+    auto dyldInfo = eCtx.mCtx->template getFirstLC<Macho::Loader::dyld_info_command>();
 
   if (!eCtx.leTracker || !eCtx.stTracker) {
     SPDLOG_LOGGER_ERROR(eCtx.logger,

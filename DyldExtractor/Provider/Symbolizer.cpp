@@ -115,7 +115,7 @@ template <class A> void Symbolizer<A>::enumerateExports() {
   }
 
   // Process all dylibs including itself.
-  auto dylibs = mCtx->getAllLCs<Macho::Loader::dylib_command>();
+    auto dylibs = mCtx->template getAllLCs<Macho::Loader::dylib_command>();
   for (uint64_t i = 0; i < dylibs.size(); i++) {
     activity->update();
 
@@ -226,7 +226,7 @@ typename Symbolizer<A>::EntryMapT &Symbolizer<A>::processDylibCmd(
   }
 
   // Process ReExports
-  auto dylibDeps = dylibCtx.getAllLCs<Macho::Loader::dylib_command>();
+        auto dylibDeps = dylibCtx.template getAllLCs<Macho::Loader::dylib_command>();
   dylibDeps.erase(std::remove_if(dylibDeps.begin(), dylibDeps.end(),
                                  [](auto d) { return d->cmd == LC_ID_DYLIB; }),
                   dylibDeps.end());
@@ -280,9 +280,9 @@ Symbolizer<A>::readExports(const std::string &dylibPath,
       dylibCtx.convertAddr(dylibCtx.getSegment(SEG_LINKEDIT)->command->vmaddr)
           .second;
   const auto exportTrieCmd =
-      dylibCtx.getFirstLC<Macho::Loader::linkedit_data_command>(
+    dylibCtx.template getFirstLC<Macho::Loader::linkedit_data_command>(
           {LC_DYLD_EXPORTS_TRIE});
-  const auto dyldInfo = dylibCtx.getFirstLC<Macho::Loader::dyld_info_command>();
+    const auto dyldInfo = dylibCtx.template getFirstLC<Macho::Loader::dyld_info_command>();
   if (exportTrieCmd) {
     exportsStart = linkeditFile + exportTrieCmd->dataoff;
     exportsEnd = exportsStart + exportTrieCmd->datasize;
@@ -303,8 +303,8 @@ Symbolizer<A>::readExports(const std::string &dylibPath,
   return exports;
 }
 
-template class Symbolizer<Utils::Arch::x86_64>;
-template class Symbolizer<Utils::Arch::arm>;
-template class Symbolizer<Utils::Arch::arm64>;
-template class Symbolizer<Utils::Arch::arm64_32>;
+template class DyldExtractor::Provider::Symbolizer<Utils::Arch::x86_64>;
+template class DyldExtractor::Provider::Symbolizer<Utils::Arch::arm>;
+template class DyldExtractor::Provider::Symbolizer<Utils::Arch::arm64>;
+template class DyldExtractor::Provider::Symbolizer<Utils::Arch::arm64_32>;
 #pragma endregion Symbolizer

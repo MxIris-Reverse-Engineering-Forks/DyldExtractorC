@@ -97,7 +97,7 @@ template <class A> void Disassembler<A>::load() {
 
   // read all data in code entries
   auto dataInCodeCmd =
-      mCtx->getFirstLC<Macho::Loader::linkedit_data_command>({LC_DATA_IN_CODE});
+    mCtx->template getFirstLC<Macho::Loader::linkedit_data_command>({LC_DATA_IN_CODE});
   if (dataInCodeCmd) {
     auto leFile =
         mCtx->convertAddr(mCtx->getSegment(SEG_LINKEDIT)->command->vmaddr)
@@ -224,7 +224,7 @@ template <class A> uint32_t Disassembler<A>::recover(uint32_t offset) {
   }
 }
 
-template class Disassembler<Utils::Arch::x86_64>;
-template class Disassembler<Utils::Arch::arm>;
-template class Disassembler<Utils::Arch::arm64>;
-template class Disassembler<Utils::Arch::arm64_32>;
+template class DyldExtractor::Provider::Disassembler<Utils::Arch::x86_64>;
+template class DyldExtractor::Provider::Disassembler<Utils::Arch::arm>;
+template class DyldExtractor::Provider::Disassembler<Utils::Arch::arm64>;
+template class DyldExtractor::Provider::Disassembler<Utils::Arch::arm64_32>;

@@ -96,16 +96,16 @@ template <class A> void Arm64Fixer<A>::scanStubs() {
         return (sect->flags & SECTION_TYPE) == S_SYMBOL_STUBS;
       },
       [this](auto seg, auto sect) {
-        auto sAddr = sect->addr;
-        auto sLoc = mCtx.convertAddrP(sAddr);
+          PtrT sAddr = sect->addr;
+          uint8_t *sLoc = mCtx.convertAddrP(sAddr);
         auto indirectI = sect->reserved1;
 
-        const auto stubSize = sect->reserved2;
+        const uint32_t stubSize = sect->reserved2;
         for (; sAddr < sect->addr + sect->size;
              sAddr += stubSize, sLoc += stubSize, indirectI++) {
           activity.update();
 
-          const auto sDataPair = arm64Utils.resolveStub(sAddr);
+          const std::optional<std::pair<PtrT, AStubFormat>> sDataPair = arm64Utils.resolveStub(sAddr);
           if (!sDataPair) {
             SPDLOG_LOGGER_ERROR(logger, "Unknown Arm64 stub format at {:#x}.",
                                 sAddr);
@@ -152,7 +152,7 @@ template <class A> void Arm64Fixer<A>::scanStubs() {
           }
 
           // Though its target function
-          const auto sTargetFunc = arm64Utils.resolveStubChain(sAddr);
+          const PtrT sTargetFunc = arm64Utils.resolveStubChain(sAddr);
           if (const auto info = symbolizer.symbolizeAddr(sTargetFunc); info) {
             symbols.insert(info->symbols.begin(), info->symbols.end());
           }
@@ -453,7 +453,7 @@ template <class A> void Arm64Fixer<A>::fixCallsites() {
 
     const auto brInstr = (uint32_t *)iLoc;
     const SPtrT brOff =
-        arm64Utils.signExtend<SPtrT, 28>((*brInstr & 0x3FFFFFF) << 2);
+      arm64Utils.template signExtend<SPtrT, 28>((*brInstr & 0x3FFFFFF) << 2);
     const auto brTarget = iAddr + brOff;
 
     // Check if it needs fixing
@@ -565,5 +565,5 @@ template <class A> void Arm64Fixer<A>::fixCallsites() {
   }
 }
 
-template class Arm64Fixer<Utils::Arch::arm64>;
-template class Arm64Fixer<Utils::Arch::arm64_32>;
+template class DyldExtractor::Converter::Stubs::Arm64Fixer<Utils::Arch::arm64>;
+template class DyldExtractor::Converter::Stubs::Arm64Fixer<Utils::Arch::arm64_32>;

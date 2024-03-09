@@ -280,7 +280,7 @@ template <class A> ClassAtom<A> *Walker<A>::walkClass(const PtrT addr) {
 
   // Make new atom
   auto &atom =
-      atoms.classes.try_emplace(addr, ptrTracker.slideS<Objc::class_t<P>>(addr))
+    atoms.classes.try_emplace(addr, ptrTracker.template slideS<Objc::class_t<P>>(addr))
           .first->second;
 
   // Walk data
@@ -354,7 +354,7 @@ template <class A> ClassDataAtom<A> *Walker<A>::walkClassData(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.classData
-          .try_emplace(addr, ptrTracker.slideS<Objc::class_data_t<P>>(addr))
+        .try_emplace(addr, ptrTracker.template slideS<Objc::class_data_t<P>>(addr))
           .first->second;
 
   // Walk data
@@ -446,7 +446,7 @@ StringAtom<typename A::P> *Walker<A>::walkString(const PtrT addr) {
 
 template <class A>
 MethodListAtom<typename A::P> *Walker<A>::walkMethodList(const PtrT addr) {
-  auto data = ptrTracker.slideS<Objc::method_list_t>(addr);
+    auto data = ptrTracker.template slideS<Objc::method_list_t>(addr);
   if (data.usesRelativeMethods()) {
     return walkSmallMethodList(addr, data);
   } else {
@@ -491,7 +491,7 @@ Walker<A>::walkSmallMethodList(const PtrT addr, Objc::method_list_t data) {
   PtrT methodAddr = addr + sizeof(Objc::method_list_t);
   for (uint32_t i = 0; i < atom.data.count; i++, methodAddr += entsize) {
     auto &methodAtom =
-        atom.entries.emplace_back(ptrTracker.slideS<MethodT>(methodAddr));
+      atom.entries.emplace_back(ptrTracker.template slideS<MethodT>(methodAddr));
 
     // Walk data
     if (auto nameAddr = methodAtom.data.name; nameAddr) {
@@ -559,7 +559,7 @@ Walker<A>::walkLargeMethodList(const PtrT addr, Objc::method_list_t data) {
   PtrT methodAddr = addr + sizeof(Objc::method_list_t);
   for (uint32_t i = 0; i < atom.data.count; i++, methodAddr += entsize) {
     auto &methodAtom =
-        atom.entries.emplace_back(ptrTracker.slideS<MethodT>(methodAddr));
+      atom.entries.emplace_back(ptrTracker.template slideS<MethodT>(methodAddr));
 
     // Walk data
     if (methodAtom.data.name) {
@@ -600,7 +600,7 @@ ProtocolListAtom<A> *Walker<A>::walkProtocolList(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.protocolLists
-          .try_emplace(addr, ptrTracker.slideS<Objc::protocol_list_t<P>>(addr))
+        .try_emplace(addr, ptrTracker.template slideS<Objc::protocol_list_t<P>>(addr))
           .first->second;
 
   // Walk data
@@ -621,7 +621,7 @@ template <class A> ProtocolAtom<A> *Walker<A>::walkProtocol(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.protocols
-          .try_emplace(addr, ptrTracker.slideS<Objc::protocol_t<P>>(addr))
+        .try_emplace(addr, ptrTracker.template slideS<Objc::protocol_t<P>>(addr))
           .first->second;
 
   // Walk data
@@ -705,7 +705,7 @@ PropertyListAtom<typename A::P> *Walker<A>::walkPropertyList(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.propertyLists
-          .try_emplace(addr, ptrTracker.slideS<Objc::property_list_t>(addr))
+        .try_emplace(addr, ptrTracker.template slideS<Objc::property_list_t>(addr))
           .first->second;
 
   auto entsize = atom.data.entsize;
@@ -721,7 +721,7 @@ PropertyListAtom<typename A::P> *Walker<A>::walkPropertyList(const PtrT addr) {
   PtrT propertyAddr = addr + sizeof(Objc::property_list_t);
   for (uint32_t i = 0; i < atom.data.count; i++, propertyAddr += entsize) {
     auto &property = atom.entries.emplace_back(
-        ptrTracker.slideS<Objc::property_t<P>>(propertyAddr));
+                                               ptrTracker.template slideS<Objc::property_t<P>>(propertyAddr));
 
     if (property.data.name) {
       property.name.ref = walkString(property.data.name);
@@ -773,7 +773,7 @@ template <class A> IvarListAtom<A> *Walker<A>::walkIvarList(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.ivarLists
-          .try_emplace(addr, ptrTracker.slideS<Objc::ivar_list_t>(addr))
+        .try_emplace(addr, ptrTracker.template slideS<Objc::ivar_list_t>(addr))
           .first->second;
 
   auto entsize = atom.data.entsize;
@@ -789,7 +789,7 @@ template <class A> IvarListAtom<A> *Walker<A>::walkIvarList(const PtrT addr) {
   PtrT ivarAddr = addr + sizeof(Objc::ivar_list_t);
   for (uint32_t i = 0; i < atom.data.count; i++, ivarAddr += entsize) {
     auto &ivar =
-        atom.entries.emplace_back(ptrTracker.slideS<Objc::ivar_t<P>>(ivarAddr));
+      atom.entries.emplace_back(ptrTracker.template slideS<Objc::ivar_t<P>>(ivarAddr));
 
     // Process data
     if (ivar.data.offset) {
@@ -837,7 +837,7 @@ template <class A> CategoryAtom<A> *Walker<A>::walkCategory(const PtrT addr) {
   // Make new atom
   auto &atom =
       atoms.categories
-          .try_emplace(addr, ptrTracker.slideS<Objc::category_t<P>>(addr),
+        .try_emplace(addr, ptrTracker.template slideS<Objc::category_t<P>>(addr),
                        hasCategoryClassProperties)
           .first->second;
 
@@ -922,7 +922,7 @@ Walker<A>::makeSmallMethodSelRef(const PtrT stringAddr) {
 template <class A>
 std::optional<typename Walker<A>::PtrT>
 Walker<A>::findInImageRelList(const PtrT addr) const {
-  auto relListList = ptrTracker.slideS<Objc::relative_list_list_t>(addr);
+    auto relListList = ptrTracker.template slideS<Objc::relative_list_list_t>(addr);
 
   // check entsize
   if (relListList.entsize != sizeof(Objc::relative_list_t)) {
@@ -947,7 +947,7 @@ Walker<A>::findInImageRelList(const PtrT addr) const {
   return std::nullopt;
 }
 
-#define X(T) template class Walker<T>;
+#define X(T) template class DyldExtractor::Converter::ObjcFixer::Walker<T>;
 X(Utils::Arch::x86_64)
 X(Utils::Arch::arm)
 X(Utils::Arch::arm64)

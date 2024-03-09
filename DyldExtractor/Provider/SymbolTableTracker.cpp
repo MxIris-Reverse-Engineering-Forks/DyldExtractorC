@@ -88,5 +88,5 @@ SymbolTableTracker<P>::getRedactedSymIndex() const {
   return redactedSymIndex;
 }
 
-template class SymbolTableTracker<Utils::Arch::Pointer32>;
-template class SymbolTableTracker<Utils::Arch::Pointer64>;
+template class DyldExtractor::Provider::SymbolTableTracker<Utils::Arch::Pointer32>;
+template class DyldExtractor::Provider::SymbolTableTracker<Utils::Arch::Pointer64>;

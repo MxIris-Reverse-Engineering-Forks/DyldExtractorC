@@ -80,10 +80,10 @@ LinkeditOptimizer<A>::LinkeditOptimizer(Utils::ExtractionContext<A> &eCtx)
   leFileOffset = (uint32_t)off;
   leData = leFile + leFileOffset;
 
-  symtab = mCtx.getFirstLC<Macho::Loader::symtab_command>();
-  dysymtab = mCtx.getFirstLC<Macho::Loader::dysymtab_command>();
-  dyldInfo = mCtx.getFirstLC<Macho::Loader::dyld_info_command>();
-  exportTrie = mCtx.getFirstLC<Macho::Loader::linkedit_data_command>(
+          symtab = mCtx.template getFirstLC<Macho::Loader::symtab_command>();
+          dysymtab = mCtx.template getFirstLC<Macho::Loader::dysymtab_command>();
+          dyldInfo = mCtx.template getFirstLC<Macho::Loader::dyld_info_command>();
+          exportTrie = mCtx.template getFirstLC<Macho::Loader::linkedit_data_command>(
       {LC_DYLD_EXPORTS_TRIE});
 }
 
@@ -185,7 +185,7 @@ template <class A> void LinkeditOptimizer<A>::copyExportInfo() {
 }
 
 template <class A> void LinkeditOptimizer<A>::copyFunctionStarts() {
-  auto functionStarts = mCtx.getFirstLC<Macho::Loader::linkedit_data_command>(
+    auto functionStarts = mCtx.template getFirstLC<Macho::Loader::linkedit_data_command>(
       {LC_FUNCTION_STARTS});
   if (!functionStarts) {
     return;
@@ -200,7 +200,7 @@ template <class A> void LinkeditOptimizer<A>::copyFunctionStarts() {
 
 template <class A> void LinkeditOptimizer<A>::copyDataInCode() {
   auto dataInCode =
-      mCtx.getFirstLC<Macho::Loader::linkedit_data_command>({LC_DATA_IN_CODE});
+    mCtx.template getFirstLC<Macho::Loader::linkedit_data_command>({LC_DATA_IN_CODE});
   if (!dataInCode) {
     return;
   }
@@ -328,7 +328,7 @@ LinkeditOptimizer<A>::findLocalSymbolEntries(
     // Newer caches, vm offset to mach header.
     uint64_t machoOffset = mCtx.getSegment(SEG_TEXT)->command->vmaddr -
                            dCtx.header->sharedRegionStart;
-    auto entry = searchEntries.operator()<dyld_cache_local_symbols_entry_64>(
+      auto entry = searchEntries.template operator()<dyld_cache_local_symbols_entry_64>(
         machoOffset);
     if (entry) {
       nlistStart = (uint8_t *)symbolsInfo + symbolsInfo->nlistOffset +
@@ -339,7 +339,7 @@ LinkeditOptimizer<A>::findLocalSymbolEntries(
     // Older caches, file offset to mach header.
     uint64_t machoOffset =
         mCtx.convertAddr(mCtx.getSegment(SEG_TEXT)->command->vmaddr).first;
-    auto entry = searchEntries.operator()<dyld_cache_local_symbols_entry>(
+      auto entry = searchEntries.template operator()<dyld_cache_local_symbols_entry>(
         (uint32_t)machoOffset);
     if (entry) {
       nlistStart = (uint8_t *)symbolsInfo + symbolsInfo->nlistOffset +

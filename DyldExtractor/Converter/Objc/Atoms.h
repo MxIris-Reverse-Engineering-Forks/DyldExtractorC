@@ -170,7 +170,7 @@ class BindPointerAtom final : public ReferenceAtom<P, AtomT, typename P::PtrT> {
   using PtrT = P::PtrT;
 
 public:
-  ReferenceAtom<P, AtomT, PtrT>::ReferenceAtom;
+    using ReferenceAtom<P, AtomT, PtrT>::ReferenceAtom;
   BindPointerAtom() : ReferenceAtom<P, AtomT, PtrT>(0) {}
 
   virtual void propagate() override {

@@ -229,6 +229,6 @@ void SymbolPointerCache<A>::addPointerInfo(PointerType pType, PtrT pAddr,
   }
 }
 
-template class SymbolPointerCache<Utils::Arch::arm>;
-template class SymbolPointerCache<Utils::Arch::arm64>;
-template class SymbolPointerCache<Utils::Arch::arm64_32>;
+template class DyldExtractor::Converter::Stubs::SymbolPointerCache<Utils::Arch::arm>;
+template class DyldExtractor::Converter::Stubs::SymbolPointerCache<Utils::Arch::arm64>;
+template class DyldExtractor::Converter::Stubs::SymbolPointerCache<Utils::Arch::arm64_32>;

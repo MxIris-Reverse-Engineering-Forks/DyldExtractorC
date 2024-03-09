@@ -21,7 +21,7 @@ public:
   Fixer(Utils::ExtractionContext<A> &eCtx);
   void fix();
 
-private:
+//private:
   void checkIndirectEntries();
   void fixIndirectEntries();
   void bindPointers();

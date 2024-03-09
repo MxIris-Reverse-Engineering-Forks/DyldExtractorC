@@ -12,6 +12,11 @@ struct OffsetWriteProcedure {
   uint64_t writeOffset;
   const uint8_t *source;
   uint64_t size;
+    OffsetWriteProcedure(
+                         uint64_t writeOffset,
+                         const uint8_t *source,
+                         uint64_t size
+                         ): writeOffset(writeOffset), source(source), size(size) {}
 };
 
 /// @brief Optimize a mach-o file's offsets for output.

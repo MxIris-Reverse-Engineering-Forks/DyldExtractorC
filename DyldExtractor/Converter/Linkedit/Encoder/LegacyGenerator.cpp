@@ -25,7 +25,7 @@ template <class A> bool addDyldInfo(Utils::ExtractionContext<A> &eCtx) {
   dyldInfo.cmdsize = sizeof(Macho::Loader::dyld_info_command);
 
   // Insert dyld info command before symtab command
-  auto symtab = mCtx.getFirstLC<Macho::Loader::symtab_command>();
+    auto symtab = mCtx.template getFirstLC<Macho::Loader::symtab_command>();
   auto [dyldInfoLc, success] = leTracker.insertLC(
       reinterpret_cast<Macho::Loader::load_command *>(symtab),
       reinterpret_cast<Macho::Loader::load_command *>(&dyldInfo));
@@ -35,7 +35,7 @@ template <class A> bool addDyldInfo(Utils::ExtractionContext<A> &eCtx) {
   }
 
   // Move the export trie info into dyld info
-  auto exportTrieCmd = mCtx.getFirstLC<Macho::Loader::linkedit_data_command>(
+    auto exportTrieCmd = mCtx.template getFirstLC<Macho::Loader::linkedit_data_command>(
       {LC_DYLD_EXPORTS_TRIE});
   auto exportTrieMetaIt = leTracker.findTag(LETrackerTag::detachedExportTrie);
   if (!exportTrieCmd || exportTrieMetaIt == leTracker.metadataEnd()) {
@@ -56,7 +56,7 @@ template <class A> bool addDyldInfo(Utils::ExtractionContext<A> &eCtx) {
 
   // need to get dyld info command again because removeLC invalidates it.
   dyldInfoLc = reinterpret_cast<Macho::Loader::load_command *>(
-      mCtx.getFirstLC<Macho::Loader::dyld_info_command>());
+                                                               mCtx.template getFirstLC<Macho::Loader::dyld_info_command>());
   typename Provider::LinkeditTracker<P>::Metadata exportTrieMeta(
       LETrackerTag::exportTrie, nullptr, linkeditSize,
       reinterpret_cast<Macho::Loader::load_command *>(dyldInfoLc));
@@ -131,7 +131,7 @@ std::vector<uint8_t> encodeRebaseInfo(Utils::ExtractionContext<A> &eCtx) {
   auto encodedData = Encoder::encodeRebaseV1(rebaseInfo, *eCtx.mCtx);
 
   // Pointer align
-  encodedData.resize(Utils::align(encodedData.size(), sizeof(A::P::PtrT)));
+    encodedData.resize(Utils::align(encodedData.size(), sizeof(typename A::P::PtrT)));
   return encodedData;
 }
 
@@ -144,7 +144,7 @@ std::vector<uint8_t> encodeBindInfo(Utils::ExtractionContext<A> &eCtx) {
   std::map<PtrT, Encoder::BindingV1Info> bindInfo;
 
   // get ordinals of weak dylibs
-  const auto dylibs = mCtx.getAllLCs<Macho::Loader::dylib_command>();
+    const auto dylibs = mCtx.template getAllLCs<Macho::Loader::dylib_command>();
   std::set<uint64_t> weakDylibOrdinals;
   for (int i = 0; i < dylibs.size(); i++) {
     if (dylibs.at(i)->cmd == LC_LOAD_WEAK_DYLIB) {
@@ -177,7 +177,7 @@ std::vector<uint8_t> encodeBindInfo(Utils::ExtractionContext<A> &eCtx) {
   auto encodedData = Encoder::encodeBindingV1(bindInfoVec, mCtx);
 
   // Pointer align
-  encodedData.resize(Utils::align(encodedData.size(), sizeof(A::P::PtrT)));
+    encodedData.resize(Utils::align(encodedData.size(), sizeof(typename A::P::PtrT)));
   return encodedData;
 }
 
@@ -188,7 +188,7 @@ void addRebaseInfo(Utils::ExtractionContext<A> &eCtx,
 
   uint32_t size = (uint32_t)data.size();
   auto &leTracker = *eCtx.leTracker;
-  auto dyldInfo = eCtx.mCtx->getFirstLC<Macho::Loader::dyld_info_command>();
+    auto dyldInfo = eCtx.mCtx->template getFirstLC<Macho::Loader::dyld_info_command>();
   auto rebaseMetaIt = leTracker.findTag(LETrackerTag::rebase);
 
   if (!size) {
@@ -230,7 +230,7 @@ void addBindInfo(Utils::ExtractionContext<A> &eCtx, std::vector<uint8_t> data) {
 
   uint32_t size = (uint32_t)data.size();
   auto &leTracker = *eCtx.leTracker;
-  auto dyldInfo = eCtx.mCtx->getFirstLC<Macho::Loader::dyld_info_command>();
+    auto dyldInfo = eCtx.mCtx->template getFirstLC<Macho::Loader::dyld_info_command>();
   auto bindingMetaIt = leTracker.findTag(LETrackerTag::binding);
 
   if (!size) {
@@ -279,7 +279,7 @@ template <class A> void addMetadata(Utils::ExtractionContext<A> &eCtx) {
 
 template <class A>
 void Encoder::generateLegacyMetadata(Utils::ExtractionContext<A> &eCtx) {
-  if (!eCtx.mCtx->getFirstLC<Macho::Loader::dyld_info_command>()) {
+    if (!eCtx.mCtx->template getFirstLC<Macho::Loader::dyld_info_command>()) {
     if (!addDyldInfo(eCtx)) {
       return;
     }

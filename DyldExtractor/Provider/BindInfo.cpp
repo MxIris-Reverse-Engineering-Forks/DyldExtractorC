@@ -31,7 +31,7 @@ void readBindStream(
   const uint8_t *currentRecordStart = start;
   IntermediateBindRecord currentRecord;
 
-  const uint32_t ptrSize = sizeof(P::PtrT);
+    const uint32_t ptrSize = sizeof(typename P::PtrT);
   const uint8_t *p = start;
 
   while (p < end) {
@@ -150,7 +150,7 @@ template <class P> void BindInfo<P>::load() {
   const uint8_t *linkeditFile =
       mCtx->convertAddr(mCtx->getSegment(SEG_LINKEDIT)->command->vmaddr).second;
   const dyld_info_command *dyldInfo =
-      mCtx->getFirstLC<Macho::Loader::dyld_info_command>();
+    mCtx->template getFirstLC<Macho::Loader::dyld_info_command>();
 
   activity->update("BindInfo", "Starting up");
   if (dyldInfo && dyldInfo->bind_size) {
@@ -232,5 +232,5 @@ template <class P> bool BindInfo<P>::hasLazyBinds() const {
   return _hasLazyBinds;
 }
 
-template class BindInfo<Utils::Arch::Pointer32>;
-template class BindInfo<Utils::Arch::Pointer64>;
+template class DyldExtractor::Provider::BindInfo<Utils::Arch::Pointer32>;
+template class DyldExtractor::Provider::BindInfo<Utils::Arch::Pointer64>;

@@ -30,7 +30,7 @@ LinkeditTracker<P>::LinkeditTracker(Macho::Context<false, P> &mCtx,
   leOffset = off;
   leData = linkeditFile + off;
   leDataEnd = leData + linkeditSize;
-  cmdsData = (uint8_t *)mCtx.header + sizeof(Macho::Context<false, P>::HeaderT);
+        cmdsData = (uint8_t *)mCtx.header + sizeof(typename Macho::Context<false, P>::HeaderT);
   cmdsDataEnd = cmdsData + mCtx.header->sizeofcmds;
   cmdsMaxSize = textSect->addr - textSeg->command->vmaddr -
                 sizeof(Macho::Loader::mach_header<P>);
@@ -371,5 +371,5 @@ template <class P> uint32_t LinkeditTracker<P>::lcOffsetForTag(Tag tag) {
   }
 }
 
-template class LinkeditTracker<Utils::Arch::Pointer32>;
-template class LinkeditTracker<Utils::Arch::Pointer64>;
+template class DyldExtractor::Provider::LinkeditTracker<Utils::Arch::Pointer32>;
+template class DyldExtractor::Provider::LinkeditTracker<Utils::Arch::Pointer64>;

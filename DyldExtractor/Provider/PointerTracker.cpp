@@ -262,5 +262,5 @@ template <class P> void PointerTracker<P>::fillMappings() {
   }
 }
 
-template class PointerTracker<Utils::Arch::Pointer32>;
-template class PointerTracker<Utils::Arch::Pointer64>;
+template class DyldExtractor::Provider::PointerTracker<Utils::Arch::Pointer32>;
+template class DyldExtractor::Provider::PointerTracker<Utils::Arch::Pointer64>;
