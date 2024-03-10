@@ -1,7 +1,7 @@
 #ifndef __CONVERTER_LINKEDIT_ENCODER_REBASEV1__
 #define __CONVERTER_LINKEDIT_ENCODER_REBASEV1__
 
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 
 namespace DyldExtractor::Converter::Linkedit::Encoder {
 

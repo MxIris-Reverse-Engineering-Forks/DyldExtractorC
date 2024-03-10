@@ -211,6 +211,12 @@ void ArmFixer::fixPass1() {
                 }
                 break;
             }
+            case ArmUtils::StubFormat::optimizedV5: {
+                break;
+            }
+            case ArmUtils::StubFormat::resolver: {
+                break;
+            }
         }
         
         if (fixed) {

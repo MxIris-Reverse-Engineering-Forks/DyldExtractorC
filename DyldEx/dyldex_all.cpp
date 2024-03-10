@@ -10,8 +10,8 @@
 #include <Converter/OffsetOptimizer.h>
 #include <Converter/Slide.h>
 #include <Converter/Stubs/Stubs.h>
-#include <Dyld/Context.h>
-#include <Macho/Context.h>
+#include <Dyld/DyldContext.h>
+#include <Macho/MachoContext.h>
 #include <Provider/Accelerator.h>
 #include <Provider/Validator.h>
 #include <Utils/ExtractionContext.h>
@@ -228,8 +228,13 @@ void runAllImages(Dyld::Context &dCtx, ProgramArguments &args) {
 }
 
 int main(int argc, char *argv[]) {
-  ProgramArguments args = parseArgs(argc, argv);
-
+//  ProgramArguments args = parseArgs(argc, argv);
+    ProgramArguments args = ProgramArguments();
+    args.cache_path = "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64";
+    args.verbose = true;
+//    args.listImages = true;
+    
+    args.outputDir = "/Users/JH/Desktop";
   try {
     Dyld::Context dCtx(args.cache_path);
 

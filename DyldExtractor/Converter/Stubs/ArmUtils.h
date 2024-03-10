@@ -1,7 +1,7 @@
 #ifndef __CONVERTER_STUBS_ARMUTILS__
 #define __CONVERTER_STUBS_ARMUTILS__
 
-#include <Dyld/Context.h>
+#include <Dyld/DyldContext.h>
 #include <Utils/Architectures.h>
 #include <Utils/ExtractionContext.h>
 

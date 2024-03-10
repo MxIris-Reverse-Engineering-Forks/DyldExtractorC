@@ -18,8 +18,8 @@ add_library(DyldExtractor
 	Converter/Stubs/SymbolPointerCache.cpp
 	Converter/OffsetOptimizer.cpp
 	Converter/Slide.cpp
-	Dyld/Context.cpp
-	Macho/Context.cpp
+	Dyld/DyldContext.cpp
+	Macho/MachoContext.cpp
 	Provider/ActivityLogger.cpp
 	Provider/BindInfo.cpp
 	Provider/Disassembler.cpp

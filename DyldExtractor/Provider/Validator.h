@@ -1,7 +1,7 @@
 #ifndef __PROVIDER_VALIDATOR__
 #define __PROVIDER_VALIDATOR__
 
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 
 namespace DyldExtractor::Provider {
 

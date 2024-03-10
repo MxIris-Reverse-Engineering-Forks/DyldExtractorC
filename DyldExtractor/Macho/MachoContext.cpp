@@ -1,4 +1,4 @@
-#include "Context.h"
+#include "MachoContext.h"
 
 #include <exception>
 
@@ -290,7 +290,7 @@ void Context<ro, P>::enumerateSections(EnumerationCallback pred,
 
 template <bool ro, class P>
 void Context<ro, P>::enumerateSections(EnumerationCallback callback) {
-  enumerateSections([](...) { return true; }, callback);
+  enumerateSections([](const auto seg, const auto sect) { return true; }, callback);
 }
 
 template <bool ro, class P>

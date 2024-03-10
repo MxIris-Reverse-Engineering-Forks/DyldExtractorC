@@ -1,7 +1,7 @@
 #include "MetadataGenerator.h"
 
 #include "Encoder/Encoder.h"
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 #include <Objc/Abstraction.h>
 #include <Utils/Utils.h>
 

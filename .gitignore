@@ -4,3 +4,8 @@ binaries
 build
 out
 CMakeSettings.json
+DyldExtractor/.DS_Store
+.idea
+.DS_Store
+xcode
+cmake-build-debug

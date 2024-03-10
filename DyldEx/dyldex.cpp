@@ -10,8 +10,8 @@
 #include <Converter/OffsetOptimizer.h>
 #include <Converter/Slide.h>
 #include <Converter/Stubs/Stubs.h>
-#include <Dyld/Context.h>
-#include <Macho/Context.h>
+#include <Dyld/DyldContext.h>
+#include <Macho/MachoContext.h>
 #include <Provider/Validator.h>
 #include <Utils/ExtractionContext.h>
 
@@ -218,8 +218,14 @@ void extractImage(Dyld::Context &dCtx, ProgramArguments args) {
 }
 
 int main(int argc, char *argv[]) {
-  ProgramArguments args = parseArgs(argc, argv);
-
+//  ProgramArguments args = parseArgs(argc, argv);
+    ProgramArguments args = ProgramArguments();
+    args.cache_path = "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e";
+    args.verbose = true;
+//    args.listImages = true;
+    args.extractImage = "/System/Library/Frameworks/AppKit.framework";
+    args.outputPath = "/Users/vm/Desktop/AppKit";
+    
   try {
     Dyld::Context dCtx(args.cache_path);
 

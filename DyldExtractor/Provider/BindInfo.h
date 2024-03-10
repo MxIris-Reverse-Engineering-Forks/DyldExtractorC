@@ -2,7 +2,7 @@
 #define __PROVIDER_BINDINFO__
 
 #include "ActivityLogger.h"
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 #include <map>
 
 namespace DyldExtractor::Provider {

@@ -2,7 +2,7 @@
 #define __PROVIDER_POINTERTRACKER__
 
 #include "Symbolizer.h"
-#include <Dyld/Context.h>
+#include <Dyld/DyldContext.h>
 #include <map>
 #include <spdlog/spdlog.h>
 #include <stdint.h>

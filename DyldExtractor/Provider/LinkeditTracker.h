@@ -1,7 +1,7 @@
 #ifndef __PROVIDER_LINKEDITTRACKER__
 #define __PROVIDER_LINKEDITTRACKER__
 
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 
 namespace DyldExtractor::Provider {
 

@@ -3,7 +3,7 @@
 
 #include "ActivityLogger.h"
 #include "FunctionTracker.h"
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 #include <capstone/capstone.h>
 #include <set>
 #include <spdlog/spdlog.h>

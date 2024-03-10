@@ -1,8 +1,8 @@
 #ifndef __UTILS_EXTRACTIONCONTEXT__
 #define __UTILS_EXTRACTIONCONTEXT__
 
-#include <Dyld/Context.h>
-#include <Macho/Context.h>
+#include <Dyld/DyldContext.h>
+#include <Macho/MachoContext.h>
 #include <Provider/Accelerator.h>
 #include <Provider/ActivityLogger.h>
 #include <Provider/BindInfo.h>

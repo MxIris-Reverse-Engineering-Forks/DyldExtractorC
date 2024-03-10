@@ -4,7 +4,7 @@
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <filesystem>
 
-#include <Macho/Context.h>
+#include <Macho/MachoContext.h>
 #include <dyld/dyld_cache_format.h>
 
 namespace DyldExtractor::Dyld {

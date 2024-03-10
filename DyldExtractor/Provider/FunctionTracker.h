@@ -1,7 +1,7 @@
 #ifndef __PROVIDER_FUNCTIONTRACKER__
 #define __PROVIDER_FUNCTIONTRACKER__
 
-#include <MachO/Context.h>
+#include <Macho/MachoContext.h>
 #include <spdlog/spdlog.h>
 
 namespace DyldExtractor::Provider {
